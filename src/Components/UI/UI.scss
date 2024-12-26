@@ -37,11 +37,17 @@
     }
     }
     
-    .Navitem.active {
-        color: #333333;
-    .text{
-        font-weight: bold;
+    @mixin Active(){
+        color: #333333; 
     }
+
+
+    .Navitem.active {
+
+        @include Active();
+        .text{
+            font-weight: bold;
+        }
     }
     
 }
