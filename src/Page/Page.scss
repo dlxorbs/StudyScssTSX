@@ -1,4 +1,6 @@
-@mixin scrollable(){
+@mixin scrollable(){  
+     width: 100%;
+    max-width: 600px;
     height: calc(100% - 120px);
     overflow-y: scroll;
     margin-top: 60px;
@@ -14,29 +16,41 @@
 
     .ListSection{
     @include scrollable();
-    width: 100%;
-    max-width: 600px;
+
+
     .List{
         height: 10000px;
     }
     }
 
-
     .ChatPage{
         width: 100%;
         min-width: 300px;
+        position: relative;
+
         .ChatListContainer{
             @include scrollable();
             width: calc(100%);
             margin: 80px auto 0;
+
+            &:has(.EmptyMessage){
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+
+                .EmptyMessage{
+                    color: #33333360;
+                }
+            }
         }
     }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 600px) {
     .ListSection{
         width: 100%;
-        min-width: 600px;
+        min-width: 600px !important;
         background-color: #F1F3F5;
     }
 }

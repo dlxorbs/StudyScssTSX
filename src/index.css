@@ -25,3 +25,7 @@ code {
   border-radius: 8px;
   background-color: #3b74dd70;
 }
+
+input:focus {
+  outline: none;
+}
