@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Page.scss';
 import ChatPage from '../Page/ChatPage'
+import Users from '../Components/User/User';
 
 function Home() {
     const [isLargeScreen, setIsLargeScreen] = useState(false);
@@ -24,7 +25,7 @@ function Home() {
     return (
         <div className="MainContainer">
             <div className="ListSection">
-                <div className="List"></div>
+                <div className="List"><Users /></div>
             </div>
             {isLargeScreen && (
                 <ChatPage />

@@ -9,6 +9,7 @@ interface Props {
 }
 
 function TextInput({ type, value, onChange, onClick }: Props) {
+
     return (
         <div className="textInput InputContainer">
             <input type={type} value={value} onChange={onChange} />

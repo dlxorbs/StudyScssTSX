@@ -10,6 +10,7 @@ const ChatList = ({ data }: Props) => {
     const list = data.map((chat, index) => (
         <Chat key={index} name={chat.name} type={chat.type} content={chat.content} />
     ));
+    
 
     return (
         <div className="chatlist">
