@@ -9,7 +9,7 @@ function Home() {
     // 체크: 화면 크기에 따라 상태 업데이트
     useEffect(() => {
         const handleResize = () => {
-            setIsLargeScreen(window.innerWidth >= 600);
+            setIsLargeScreen(window.innerWidth >= 700);
         };
 
         // 초기화 및 리사이즈 이벤트 리스너 추가

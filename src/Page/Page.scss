@@ -1,7 +1,5 @@
 @mixin scrollable() {
     width: 100%;
-    max-width: 500px;
-
     overflow-y: scroll;
     margin-top: 60px;
     scrollbar-width: 4px;
@@ -19,6 +17,7 @@
     .ListSection {
         @include scrollable();
         height: calc(100% - 120px);
+        max-width: 400px;
 
         .List {
             height: 10000px;
@@ -51,10 +50,20 @@
     }
 }
 
-@media (min-width:500px) {
+@media (min-width:700px) {
     .ListSection {
         width: 100%;
-        min-width: 500px !important;
+        max-width: none;
+        min-width: 400px !important;
+        background-color: #F1F3F5;
+    }
+}
+
+@media (max-width:700px) {
+    .ListSection {
+        width: 100%;
+        max-width: none !important;
+        min-width: 400px !important;
         background-color: #F1F3F5;
     }
 }

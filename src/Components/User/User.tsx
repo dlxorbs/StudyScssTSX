@@ -1,36 +1,63 @@
 // src/components/Users.tsx
-import { collection, addDoc, getDocs } from 'firebase/firestore';
-import { useState, useEffect } from 'react';
-import { db } from '../../firebase';
+import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { db } from "../../firebase";
+import { getDatabase, ref, set, update, onValue } from "firebase/database";
 
 interface User {
     id: string;
     name: string;
     age: number;
+    state?: boolean;
 }
 
-
 const Users = () => {
-
     const [users, setUsers] = useState<User[]>([]);
-    const usersCollectionRef = collection(db, 'users');
+    const [currentUserState, setCurrentUserState] = useState<boolean | null>(null);
+    const usersCollectionRef = collection(db, "users");
+    const [loggedInUserId, setLoggedInUserId] = useState<string | null>('null');
+    const realtimeDb = getDatabase();
 
-    // 새로운 사용자 추가
     const addUser = async (name: string, age: number) => {
         await addDoc(usersCollectionRef, { name, age });
     };
 
-    // 모든 사용자 가져오기
+    const writeUserData = (userId: string, name: string, email: string, imageUrl: string) => {
+        set(ref(realtimeDb, "users/" + userId), {
+            username: name,
+            email: email,
+            profile_picture: imageUrl,
+        });
+    };
+
+    const writeUserState = (userId: string, state: boolean) => {
+        update(ref(realtimeDb, "users/" + userId), {
+            state: state,
+        });
+        setCurrentUserState(state);
+    };
+
     useEffect(() => {
-        const getUsers = async () => {
-            const querySnapshot = await getDocs(usersCollectionRef);
+        const unsubscribe = onSnapshot(usersCollectionRef, (querySnapshot) => {
             const usersData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...(doc.data() as { name: string; age: number }),
             }));
             setUsers(usersData);
-        };
-        getUsers();
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+
+    useEffect(() => {
+        const userStateRef = ref(realtimeDb, `users/${loggedInUserId}/state`);
+        const unsubscribe = onValue(userStateRef, (snapshot) => {
+            const state = snapshot.val();
+            setCurrentUserState(state);
+        });
+
+        return () => unsubscribe();
     }, []);
 
     return (
@@ -43,7 +70,17 @@ const Users = () => {
                     </li>
                 ))}
             </ul>
-            <button onClick={() => addUser('John Doe', 30)}>Add User</button>
+            <p>
+                <strong>Current User State:</strong> {currentUserState ? "Focused" : "Not Focused"}
+            </p>
+            <input
+                type="text"
+                onFocus={() => writeUserState(`${loggedInUserId}`, true)}
+                onBlur={() => writeUserState(`${loggedInUserId}`, false)}
+            />
+            <button onClick={() => writeUserData("taegyun", "Taegyun", "taegyun@", "example.com/profile.jpg")}>
+                Add User
+            </button>
         </div>
     );
 };

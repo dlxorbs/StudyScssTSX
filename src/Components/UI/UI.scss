@@ -9,6 +9,7 @@ $maincolor: #3b74dd;
     width: 100%;
     max-width: 500px;
     min-width: 300px;
+
     .Navitem {
         flex: 1;
         padding: 10px 20px;
@@ -25,22 +26,23 @@ $maincolor: #3b74dd;
 
         transition: .5s;
 
-        .img{
+        .img {
             width: 16px;
             height: 16px;
         }
 
-    .text{
-        font-size: 12px;
-        transition: 0.2s;
+        .text {
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        &:hover {
+            background-color: #ffffff;
+        }
     }
-    &:hover{
-        background-color: #ffffff;
-    }
-    }
-    
-    @mixin Active(){
-        color: $maincolor; 
+
+    @mixin Active() {
+        color: $maincolor;
         border-bottom: 2px $maincolor;
     }
 
@@ -48,10 +50,28 @@ $maincolor: #3b74dd;
     .Navitem.active {
 
         @include Active();
-        .text{
+
+        .text {
             font-weight: bold;
         }
     }
-    
+
 }
 
+@media (max-width:700px) {
+    .NavigationBar {
+        width: 100%;
+        max-width: none !important;
+        min-width: 500px !important;
+        background-color: #F1F3F5;
+    }
+}
+
+@media (min-width:700px) {
+    .NavigationBar {
+        width: 100%;
+        max-width: 400px;
+        min-width: 400px !important;
+        background-color: #F1F3F5;
+    }
+}
